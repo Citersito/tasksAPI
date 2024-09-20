@@ -32,11 +32,12 @@ class Task(Document):
     }
 
     @classmethod
-    def create_task(cls, taskName, category, dueDate, user):
-        task = cls(taskName=taskName, category=category, dueDate=dueDate, user=user)
-        task.save()  # Asegúrate de que 'save' se complete sin errores
-        return task
-    
+    def create_task(cls, task, category, dueDate, user):
+        new_task = cls(task=task, category=category, dueDate=dueDate, user=user)
+        new_task.save()
+        return new_task
+
+
     @classmethod
     def get_tasks(cls, user):
         return cls.objects(user=user)

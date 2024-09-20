@@ -62,16 +62,18 @@ class TaskBase(BaseModel):
     taskName: str
     category: str
     dueDate: date
-
+    
 @app.post("/tasks")
 async def create_task(task: TaskBase):
     user = getUser()
     try:
-        # Task.create_task(taskname = task.taskName, category = task.category, dueDate = task.dueDate, user = user.email)
-        return {"message": task.taskName}
+        new_task = Task.create_task(task=task.taskName, category=task.category, dueDate=task.dueDate, user=user)
+        return {"message": "Task created"}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-    
+        return {"message": e.message}
+
+
+
 @app.get("/task")
 async def getTasks():
     user = getUser()  # Asumiendo que esta función obtiene el usuario actual
