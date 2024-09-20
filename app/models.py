@@ -23,7 +23,7 @@ class User(Document):
 class Task(Document):
     task = StringField(required=True)  # Asegúrate de usar 'task' aquí
     category = StringField(required=True)
-    user = ReferenceField('User', required=True, reverse_delete_rule=3)
+    user = ReferenceField(User, required=True, reverse_delete_rule=3)
     completed = BooleanField(default=False)
     dueDate = DateField()
 

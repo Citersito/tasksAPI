@@ -73,12 +73,13 @@ async def create_task(task: TaskBase):
         return {"message": e.message}
 
 
-
 @app.get("/task")
-async def getTasks():
-    user = getUser()  # Asumiendo que esta función obtiene el usuario actual
-    tasks = Task.objects(user="66ecfa661f303c9e2b7c9556")
-    print("Tasks fetched from DB:", tasks)
-
-    # Convertimos los objetos en diccionarios JSON-serializables
+async def get_tasks():
+    user = getUser()  # Obtener el usuario actual
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    tasks = Task.objects(user=user.id)  # Aquí asegúrate de usar el 'id' del usuario, que es el ObjectId
     return [{"taskName": t.task, "category": t.category, "dueDate": t.dueDate.strftime("%Y-%m-%d")} for t in tasks]
+
+
